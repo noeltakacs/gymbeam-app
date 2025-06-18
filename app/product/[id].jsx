@@ -27,7 +27,7 @@ const ProductDetails = () => {
     <View>
       <View>
         <TouchableOpacity onPress={() => router.push("/products")}>
-          <MaterialIcons name="arrow-back-ios-new" size={24} color="black" />
+          <MaterialIcons name="arrow-back-ios" size={24} color="black" />
         </TouchableOpacity>
       </View>
       {loading ? (
