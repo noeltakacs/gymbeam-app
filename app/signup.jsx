@@ -1,14 +1,22 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from "react-native";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { StyleSheet, View, Alert } from "react-native";
 import { useRouter } from "expo-router";
+import CustomTextInput from "../components/CustomTextInput";
+import HeaderWithArrow from "../components/HeaderWithArrow";
+import AuthForm from "../components/AuthForm";
 
+// This is a simple sign-up page that allows users to create an account with a username, email, and password.
+// It checks for existing users and validates the input before making a POST request to the Fake Store API to create a new user.
+// If successful, it redirects to the products page.
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
+  // Function to check if the username or email already exists in the Fake Store API
+  // It fetches the list of users and checks if the provided username or email matches any existing user.
+  // Returns an object indicating whether the username or email exists.
   const checkUserExists = async (username, email) => {
     try {
       const response = await fetch("https://fakestoreapi.com/users");
@@ -25,13 +33,14 @@ const SignUp = () => {
     }
   };
 
+  // Validation functions for username and email
   const validateUsername = (username) => {
-    const regex = /^(?=.*[a-zA-Z])(?!.*\s).+$/;
+    const regex = /^(?=.*[a-zA-Z])(?!.*\s).+$/; // Username must contain at least 1 letter and no spaces
     return regex.test(username);
   };
 
   const validateEmail = (email) => {
-    const regex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+    const regex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/; // Basic email validation regex
     return regex.test(email);
   };
 
@@ -79,6 +88,7 @@ const SignUp = () => {
       return;
     }
 
+    // Make a POST request to the Fake Store API to create a new user
     try {
       const response = await fetch("https://fakestoreapi.com/users", {
         method: "POST",
@@ -88,6 +98,7 @@ const SignUp = () => {
 
       const data = await response.json();
 
+      // If sign-up is successful, redirect to products page
       if (data.id) {
         router.push("/products");
       } else {
@@ -99,22 +110,31 @@ const SignUp = () => {
   };
 
   return (
-    <View>
-      <View>
-        <TouchableOpacity onPress={() => router.push("/")}>
-          <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TextInput placeholder="Username" value={username} onChangeText={setUsername} />
-        <TextInput placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" />
-        <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
-        <TouchableOpacity onPress={handleSignUp}>
-          <Text>Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/login")}>
-          <Text>Already have an account? Log In</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <HeaderWithArrow title="Sign Up" onPress={() => router.push("/")} />
+      <View style={styles.mainContentContainer}>
+        <AuthForm
+          onSubmit={handleSignUp}
+          buttonText="Sign Up"
+          footerButtonText="Already have an account? Log In"
+          footerButtonOnPress={() => router.push("/login")}
+        >
+          <CustomTextInput placeholder="Username" value={username} onChangeText={setUsername} autoCapitalize="none" />
+          <CustomTextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <CustomTextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            autoCapitalize="none"
+          />
+        </AuthForm>
       </View>
     </View>
   );
@@ -122,4 +142,16 @@ const SignUp = () => {
 
 export default SignUp;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 16,
+  },
+  mainContentContainer: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

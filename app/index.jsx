@@ -1,24 +1,38 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Link } from "expo-router";
+import React from "react";
+import { Image, StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
+import CustomButton from "../components/CustomButton";
 
+// Welcome screen for the app
+// Provides options to choose between logging in or signing up
 const Welcome = () => {
-  return (
-    <View>
-      <Link href={"/login"} asChild>
-        <TouchableOpacity>
-          <Text>Log In</Text>
-        </TouchableOpacity>
-      </Link>
+  const router = useRouter();
 
-      <Link href={"/signup"} asChild>
-        <TouchableOpacity>
-          <Text>Sign Up</Text>
-        </TouchableOpacity>
-      </Link>
+  return (
+    <View style={styles.container}>
+      <Image source={require("../assets/img/gymbeam.png")} style={styles.image} />
+      <View style={styles.buttonContainer}>
+        <CustomButton title="Log In" onPress={() => router.push("/login")} />
+        <CustomButton title="Sign Up" onPress={() => router.push("/signup")} />
+      </View>
     </View>
   );
 };
-
 export default Welcome;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "space-evenly",
+    paddingVertical: 40,
+  },
+  image: {
+    width: "100%",
+    resizeMode: "contain",
+  },
+  buttonContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+});

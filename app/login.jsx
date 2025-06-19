@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from "react-native";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { StyleSheet, View, Alert } from "react-native";
 import { useRouter } from "expo-router";
+import CustomTextInput from "../components/CustomTextInput";
+import HeaderWithArrow from "../components/HeaderWithArrow";
+import AuthForm from "../components/AuthForm";
 
+// This is a simple login page that allows users to log in with their username and password.
+// It uses the Fake Store API for authentication and redirects to the products page upon successful login.
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +23,7 @@ const Login = () => {
       return;
     }
 
+    // Make a POST request to the Fake Store API for login
     try {
       const response = await fetch("https://fakestoreapi.com/auth/login", {
         method: "POST",
@@ -33,6 +38,7 @@ const Login = () => {
 
       const data = await response.json();
 
+      // If login is successful, redirect to products page
       if (data.token) {
         router.push("/products");
       } else {
@@ -44,21 +50,24 @@ const Login = () => {
   };
 
   return (
-    <View>
-      <View>
-        <TouchableOpacity onPress={() => router.push("/")}>
-          <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TextInput placeholder="Username" value={username} onChangeText={setUsername} />
-        <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
-        <TouchableOpacity onPress={handleLogin}>
-          <Text>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/signup")}>
-          <Text>Don't have an account? Sign Up</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <HeaderWithArrow title="Log In" onPress={() => router.push("/")} />
+      <View style={styles.mainContentContainer}>
+        <AuthForm
+          onSubmit={handleLogin}
+          buttonText="Log In"
+          footerButtonText="Don't have an account? Sign Up"
+          footerButtonOnPress={() => router.push("/signup")}
+        >
+          <CustomTextInput placeholder="Username" value={username} onChangeText={setUsername} autoCapitalize="none" />
+          <CustomTextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            autoCapitalize="none"
+          />
+        </AuthForm>
       </View>
     </View>
   );
@@ -66,4 +75,16 @@ const Login = () => {
 
 export default Login;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    padding: 16,
+  },
+  mainContentContainer: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

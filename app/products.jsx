@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
-import ProductCard from "../components/ProductCard";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { StyleSheet, View, Alert, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
+import ProductCard from "../components/ProductCard";
+import LoadingScreen from "../components/LoadingScreen";
+import HeaderWithLogOut from "../components/HeaderWithLogOut";
 
+// This component fetches and displays a list of products from an API.
+// It includes a header with a logout button, and shows a loading screen while fetching data.
+// The products are displayed in a scrollable list using ProductCard components.
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  // Fetch products from the API when the component mounts.
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
       .then((response) => response.json())
@@ -24,23 +29,29 @@ const Products = () => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <TouchableOpacity onPress={() => router.push("/")}>
-          <MaterialIcons name="logout" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <HeaderWithLogOut
+        title="Products"
+        onLogout={() => {
+          Alert.alert("Log Out", "Are you sure you want to log out?", [
+            { text: "Cancel", style: "cancel" },
+            {
+              text: "Log Out",
+              style: "destructive",
+              onPress: () => {
+                router.push("/");
+              },
+            },
+          ]);
+        }}
+      />
       {loading ? (
-        <Text>Loading...</Text>
+        <LoadingScreen />
       ) : (
-        <FlatList
-          data={products}
-          renderItem={({ item }) => <ProductCard product={item} />}
-          keyExtractor={(item) => item.id.toString()}
-          numColumns={2}
-          columnWrapperStyle={{ justifyContent: "space-between" }}
-          contentContainerStyle={{ paddingBottom: 20 }}
-          showsVerticalScrollIndicator={false}
-        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </ScrollView>
       )}
     </View>
   );
@@ -51,7 +62,6 @@ export default Products;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    backgroundColor: "#fff",
+    padding: 16,
   },
 });
