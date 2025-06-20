@@ -35,7 +35,7 @@ const InputField = ({
             onPress={() => setIsPasswordVisible(!isPasswordVisible)}
             activeOpacity={0.6}
           >
-            <MaterialIcons name={isPasswordVisible ? "visibility" : "visibility-off"} size={22} color="#555" />
+            <MaterialIcons name={isPasswordVisible ? "visibility-off" : "visibility"} size={22} color="#555" />
           </TouchableOpacity>
         )}
       </View>
