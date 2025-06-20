@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const HeaderWithLogOut = ({ onLogout }) => {
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, paddingTop: Platform.OS === "android" ? 20 : 0 }}>
       <Image source={require("../assets/icon.png")} style={styles.logo} />
       <TouchableOpacity onPress={onLogout} activeOpacity={0.6} style={styles.button}>
         <Text style={styles.headerText}>Log Out</Text>

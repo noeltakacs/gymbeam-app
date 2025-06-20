@@ -1,10 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, Platform } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const AddToCartButton = ({ onPress }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress} activeOpacity={0.6}>
+    <TouchableOpacity
+      style={{ ...styles.button, marginBottom: Platform.OS === "android" ? 20 : 0 }}
+      onPress={onPress}
+      activeOpacity={0.6}
+    >
       <MaterialIcons name="shopping-cart" size={24} color="#fff" />
       <Text style={styles.buttonText}>Add to Cart</Text>
     </TouchableOpacity>
