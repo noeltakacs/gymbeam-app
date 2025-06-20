@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, Text } from "react-native";
 import { useRouter } from "expo-router";
 import CustomButton from "../components/CustomButton";
 
@@ -12,6 +12,7 @@ const Welcome = () => {
     <View style={styles.container}>
       <Image source={require("../assets/img/gymbeam.png")} style={styles.image} />
       <View style={styles.buttonContainer}>
+        <Text style={styles.welcomeText}>Welcome to GymBeam</Text>
         <CustomButton title="Log In" onPress={() => router.push("/login")} />
         <CustomButton title="Sign Up" onPress={() => router.push("/signup")} />
       </View>
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "space-evenly",
-    paddingVertical: 40,
+    padding: 40,
   },
   image: {
     width: "100%",
@@ -34,5 +35,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
     alignItems: "center",
+  },
+  welcomeText: {
+    fontSize: 20,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 30,
   },
 });

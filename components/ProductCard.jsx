@@ -7,7 +7,9 @@ const ProductCard = ({ product }) => {
       <TouchableOpacity style={styles.card} activeOpacity={0.6}>
         <Image source={{ uri: product.image }} style={styles.image} />
         <View style={styles.textContainer}>
-          <Text style={styles.productTitle}>{product.title}</Text>
+          <Text style={styles.productTitle} numberOfLines={2} ellipsizeMode="tail">
+            {product.title}
+          </Text>
           <Text style={styles.productPrice}>{product.price.toFixed(2)}€</Text>
         </View>
       </TouchableOpacity>
@@ -43,13 +45,13 @@ const styles = StyleSheet.create({
   },
   productTitle: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "600",
     paddingBottom: 10,
     textAlign: "left",
     color: "#111",
   },
   productPrice: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "700",
     color: "#eb5e2b",
     textAlign: "left",

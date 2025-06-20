@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useRouter } from "expo-router";
 import CustomTextInput from "../components/CustomTextInput";
 import HeaderWithArrow from "../components/HeaderWithArrow";
@@ -111,30 +112,49 @@ const SignUp = () => {
 
   return (
     <View style={styles.container}>
-      <HeaderWithArrow title="Sign Up" onPress={() => router.push("/")} />
+      <View style={styles.headerContainer}>
+        <HeaderWithArrow title="Back to Start" onPress={() => router.push("/")} />
+      </View>
       <View style={styles.mainContentContainer}>
-        <AuthForm
-          onSubmit={handleSignUp}
-          buttonText="Sign Up"
-          footerButtonText="Already have an account? Log In"
-          footerButtonOnPress={() => router.push("/login")}
+        <KeyboardAwareScrollView
+          contentContainerStyle={styles.scrollContentContainer}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          enableOnAndroid
+          extraScrollHeight={50}
+          keyboardOpeningTime={0}
         >
-          <CustomTextInput placeholder="Username" value={username} onChangeText={setUsername} autoCapitalize="none" />
-          <CustomTextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-          <CustomTextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            autoCapitalize="none"
-          />
-        </AuthForm>
+          <AuthForm
+            onSubmit={handleSignUp}
+            buttonText="Sign Up"
+            footerButtonText="Already have an account? Log In"
+            footerButtonOnPress={() => router.push("/login")}
+          >
+            <CustomTextInput
+              label="Username"
+              placeholder="Enter your username"
+              value={username}
+              onChangeText={setUsername}
+              autoCapitalize="none"
+            />
+            <CustomTextInput
+              label="Email"
+              placeholder="Enter your email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <CustomTextInput
+              label="Password"
+              placeholder="Enter your password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              autoCapitalize="none"
+            />
+          </AuthForm>
+        </KeyboardAwareScrollView>
       </View>
     </View>
   );
@@ -145,12 +165,20 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    padding: 16,
+    alignItems: "center",
+  },
+  headerContainer: {
+    width: "100%",
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
   mainContentContainer: {
     flex: 1,
     width: "100%",
+  },
+  scrollContentContainer: {
+    flex: 1,
+    padding: 16,
     justifyContent: "center",
     alignItems: "center",
   },

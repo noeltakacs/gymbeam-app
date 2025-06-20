@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
@@ -8,11 +8,11 @@ const HeaderWithArrow = ({ title, onPress }) => {
 
   return (
     <View style={styles.header}>
-      <TouchableOpacity onPress={onPress} activeOpacity={0.6}>
-        <MaterialIcons name="arrow-back-ios" size={30} color="black" />
+      <TouchableOpacity onPress={onPress} activeOpacity={0.6} style={styles.button}>
+        <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+        <Text style={styles.headerText}>{title}</Text>
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>{title}</Text>
-      <View style={{ width: 30 }} />
+      <Image source={require("../assets/icon.png")} style={styles.logo} />
     </View>
   );
 };
@@ -27,8 +27,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "700",
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  logo: {
+    width: 40,
+    height: 40,
   },
 });

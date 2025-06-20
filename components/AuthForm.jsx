@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import CustomButton from "../components/CustomButton";
 import AuthFormFooterTextButton from "../components/AuthFormFooterTextButton";
 
 const AuthForm = ({ children, onSubmit, buttonText, footerButtonText, footerButtonOnPress }) => {
   return (
     <View style={styles.container}>
+      <Image source={require("../assets/icon.png")} style={styles.logo} />
       {children}
       <View style={styles.footerButtonContainer}>
         <AuthFormFooterTextButton title={footerButtonText} onPress={footerButtonOnPress} />
@@ -29,6 +30,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     alignItems: "center",
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 50,
+    resizeMode: "contain",
   },
   footerButtonContainer: {
     width: "100%",

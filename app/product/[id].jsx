@@ -35,26 +35,30 @@ const ProductDetails = () => {
         <Image source={{ uri: product.image }} style={styles.image} />
         <View style={styles.productTextContainer}>
           <Text style={styles.productTitle}>{product.title}</Text>
-          <Text style={styles.productPrice}>{product.price.toFixed(2)}€</Text>
+          <View style={styles.priceAndCategoryContainer}>
+            <Text style={styles.productPrice}>{product.price.toFixed(2)}€</Text>
+            <Text style={styles.productCategory}>
+              {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+            </Text>
+          </View>
+          <Text style={styles.secondaryTitle}>Description</Text>
           <Text style={styles.productDescription}>{product.description}</Text>
         </View>
       </ScrollView>
     );
   };
 
+  if (loading) return <LoadingScreen />;
+
   return (
     <View style={styles.container}>
-      <HeaderWithArrow title="Product Details" onPress={() => router.push("/products")} />
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <View style={styles.mainContentContainer}>
-          {renderProductDetails()}
-          <View style={styles.buttonContainer}>
-            <AddToCartButton onPress={() => {}} />
-          </View>
+      <HeaderWithArrow title="Back to Products" onPress={() => router.push("/products")} />
+      <View style={styles.mainContentContainer}>
+        {renderProductDetails()}
+        <View style={styles.buttonContainer}>
+          <AddToCartButton onPress={() => {}} />
         </View>
-      )}
+      </View>
     </View>
   );
 };
@@ -84,17 +88,33 @@ const styles = StyleSheet.create({
   productTitle: {
     fontSize: 24,
     fontWeight: "700",
-    marginBottom: 20,
+    marginBottom: 30,
+  },
+  priceAndCategoryContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 30,
   },
   productPrice: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "700",
     color: "#eb5e2b",
-    marginBottom: 20,
+  },
+  productCategory: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#555",
+  },
+  secondaryTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 10,
   },
   productDescription: {
     fontSize: 16,
     color: "#333",
+    marginBottom: 30,
   },
   buttonContainer: {
     position: "absolute",
